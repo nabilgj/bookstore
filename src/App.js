@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
 
-function App() {
+import "./App.css";
+
+import { connect } from "react-redux";
+
+import BookList from "./components/BookList";
+
+const App = (props) => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="booklist">
+      <ul>
+        {props.books.length > 0 ? (
+          props.books.map((book) => <BookList key={book.id} {...book} />)
+        ) : (
+          <h2>Start Adding your book</h2>
+        )}
+      </ul>
     </div>
   );
-}
+};
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    books: state.books,
+  };
+};
+
+// into index
+export default connect(mapStateToProps)(App);
